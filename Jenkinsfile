@@ -30,6 +30,11 @@ pipeline {
                 }
             }
         }
+        stage('Deploy Backend') {
+            steps {
+                sh 'curl -X POST https://api.render.com/deploy/srv-xxxxxxxxxxxx' 
+            }
+        }
     }
     post {
         failure {
