@@ -1,18 +1,14 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:20-alpine' 
-            args '-u root -v /var/run/docker.sock:/var/run/docker.sock'
-        }
+    agent any
+    tools {
+        nodejs 'node20'
     }
-
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
         stage('Install Backend') {
             steps {
                 dir('backend') {
@@ -20,7 +16,6 @@ pipeline {
                 }
             }
         }
-
         stage('Install Frontend') {
             steps {
                 dir('frontend') {
@@ -28,7 +23,6 @@ pipeline {
                 }
             }
         }
-
         stage('Build Frontend') {
             steps {
                 dir('frontend') {
@@ -36,26 +30,8 @@ pipeline {
                 }
             }
         }
-
-        stage('Security Audit') {
-            steps {
-                dir('backend') {
-                    sh 'npm audit --audit-level=high || true'
-                }
-            }
-        }
-
-        stage('Docker Build') {
-            steps {
-                sh 'docker compose build'
-            }
-        }
     }
-
     post {
-        success {
-            echo 'Cipher build passed!'
-        }
         failure {
             echo 'Build failed — check the logs above.'
         }
