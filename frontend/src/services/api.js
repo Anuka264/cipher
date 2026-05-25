@@ -8,7 +8,7 @@ API.interceptors.request.use((config) => {
     const publicPaths = ['/users/register', '/users/login'];
     const requestUrl = config.url || '';
 
-    if (publicPaths.some((path) => requestUrl.endsWith(path))) {
+    if (publicPaths.some((path) => requestUrl.includes(path))) {
         if (config.headers && 'Authorization' in config.headers) {
             delete config.headers.Authorization;
         }
