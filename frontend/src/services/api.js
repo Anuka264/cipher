@@ -2,7 +2,9 @@ import axios from 'axios';
 
 const API = axios.create({
     //baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api',
-    baseURL: 'https://cipher-backend.onrender.com/api',
+    baseURL: import.meta.env.PROD 
+        ? 'https://cipher-backend.onrender.com/api' 
+        : 'http://localhost:5001/api',
 });
 
 API.interceptors.request.use((config) => {
